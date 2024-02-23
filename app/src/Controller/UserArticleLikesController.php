@@ -43,18 +43,23 @@ class UserArticleLikesController extends AppController
             'user_id' => $userId,
         ]);
 
-        if ($this->UserArticleLikes->save($userLike)) {
+        try {
+            $this->UserArticleLikes->getConnection()->begin();
+            // TODO: Add queue job to update article likes if article is like too much at the same time later
+            $this->UserArticleLikes->saveOrFail($userLike);
+            $this->UserArticleLikes->getConnection()->commit();
             $result = [
                 'status' => 'success',
                 'message' => 'The like has been saved.',
             ];
             $this->set(compact('result'));
             $this->viewBuilder()->setOption('serialize', ['result']);
-        } else {
+        } catch (\Exception $e) {
+            $this->UserArticleLikes->getConnection()->rollback();
             $result = [
                 'status' => 'error',
                 'message' => 'The like could not be saved. Please, try again.',
-                'errors' => $userLike->getErrors(),
+                'errors' => $e->getMessage(),
             ];
             $this->setResponse($this->getResponse()->withStatus(400));
             $this->set(compact('result'));
