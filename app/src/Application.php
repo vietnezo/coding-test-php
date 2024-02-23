@@ -27,6 +27,12 @@ use Cake\Http\MiddlewareQueue;
 use Cake\ORM\Locator\TableLocator;
 use Cake\Routing\Middleware\AssetMiddleware;
 use Cake\Routing\Middleware\RoutingMiddleware;
+use Authentication\AuthenticationService;
+use Authentication\AuthenticationServiceInterface;
+use Authentication\AuthenticationServiceProviderInterface;
+use Authentication\Middleware\AuthenticationMiddleware;
+use Cake\Routing\Router;
+use Psr\Http\Message\ServerRequestInterface;
 
 /**
  * Application setup class.
@@ -34,7 +40,7 @@ use Cake\Routing\Middleware\RoutingMiddleware;
  * This defines the bootstrapping logic and middleware layers you
  * want to use in your application.
  */
-class Application extends BaseApplication
+class Application extends BaseApplication implements AuthenticationServiceProviderInterface
 {
     /**
      * Load all the application configuration and bootstrap logic.
@@ -93,15 +99,47 @@ class Application extends BaseApplication
             // Parse various types of encoded request bodies so that they are
             // available as array through $request->getData()
             // https://book.cakephp.org/4/en/controllers/middleware.html#body-parser-middleware
-            ->add(new BodyParserMiddleware());
+            ->add(new BodyParserMiddleware())
 
             // Cross Site Request Forgery (CSRF) Protection Middleware
             // https://book.cakephp.org/4/en/security/csrf.html#cross-site-request-forgery-csrf-middleware
             // ->add(new CsrfProtectionMiddleware([
             //     'httponly' => true,
             // ]));
+            // Add the authentication middleware
+            ->add(new AuthenticationMiddleware($this));
 
         return $middlewareQueue;
+    }
+
+    public function getAuthenticationService(ServerRequestInterface $request): AuthenticationServiceInterface
+    {
+        $service = new AuthenticationService();
+        $fields = [
+            'username' => 'email',
+            'password' => 'password'
+        ];
+
+        $service->loadAuthenticator('Authentication.Form', [
+            'fields' => $fields,
+        ]);
+
+        // https://book.cakephp.org/authentication/2/en/authenticators.html#jwt
+        $service->loadIdentifier('Authentication.JwtSubject');
+
+        // Load the authenticators.
+        $service->loadAuthenticator('Authentication.Jwt', [
+            'secretKey' => file_get_contents(CONFIG . '/credentials/jwt.pem'),
+            'algorithm' => 'RS256',
+            'returnPayload' => false
+        ]);
+
+        $service->loadIdentifier('Authentication.Password', [
+            'returnPayload' => false,
+            'fields' => $fields,
+        ]);
+
+        return $service;
     }
 
     /**

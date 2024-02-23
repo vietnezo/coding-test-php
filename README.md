@@ -6,8 +6,9 @@ This guide will walk you through the steps needed to get this project up and run
 
 Before you begin, ensure you have the following installed:
 
-- Docker
+- [Docker](https://www.docker.com/products/docker-desktop/)
 - Docker Compose
+- [Postman](https://www.postman.com/downloads/) (For testing)
 
 ### Building the Docker Environment
 
@@ -32,6 +33,14 @@ Set up the database:
 bin/cake migrations migrate
 ```
 
+Seed the database (For testing below)
+
+```
+bin/cake migrations seed
+```
+
+The sample users and articles data would be seeded.
+
 ### Accessing the Application
 
 The application should now be accessible at http://localhost:34251
@@ -40,12 +49,134 @@ The application should now be accessible at http://localhost:34251
 
 ### Authentication
 
-TODO: pls summarize how to check "Authentication" bahavior
+- Open your postman tool and use this URL:
+
+  `POST http://localhost:34251/login`
+- In Headers tab, add this config
+
+  ```
+  Key: Accept
+  Value: application/json
+  ```
+- In Body tab, choose `raw` option, and at the right dropdown, change `Text` to `JSON` and use this data for login.
+
+  ```
+  {
+    "email": "user1@example.com",
+    "password": "password1"
+  }
+  ```
+- After press `Send` button, if login is successfully, you will receive access token like this.
+
+- In case login is failed, the response would be like this.
+
 
 ### Article Management
 
-TODO: pls summarize how to check "Article Management" bahavior
+- Retrieve All Articles
+  - It can be accesssed by all users without login.
+  - Access this URL in Posman
+  `GET http://localhost:34251/articles.json`
+  - In Headers tab, add this config
+    ```
+    Key: Accept
+    Value: application/json
+    ```
+  - You will retrieve all article by pages (default page 1) like this.
+
+  - For next page, use params `page={page_number}` (Ex: page_number is 2,3,4,...) like this.
+
+- Retrieve a Single Article
+  - It can be accesssed by all users without login.
+  - Access this URL in Posman
+  `GET http://localhost:34251/articles/{article_id}.json`
+
+    (Ex: article_id is 1,2,3,...)
+  - In Headers tab, add this config
+    ```
+    Key: Accept
+    Value: application/json
+    ```
+  - You will retrieve a single article like this.
+
+- Create an Article
+  - It can only be used by authenticated users.
+  - Access this URL in Posman
+  `POST http://localhost:34251/articles.json`
+  - After you logged in, you would receive an access token in above step.
+  - In Authorization tab, chooose Type: Bearer Token and fill the Token with your token received after logged in.
+  - In Headers tab, add this config
+    ```
+    Key: Accept
+    Value: application/json
+    ```
+  - In Body tab, choose `raw` option, at the right dropdown, change `Text` to `JSON` and fill data of article.
+    Title and body of an article is required.
+      ```
+      {
+        "title": "Your title here",
+        "body": "Your body here"
+      }
+      ```
+  - After press `Send` button, article would be created like this.
+
+- Update an Article
+  - It can only be used by authenticated article writer users.
+  - Access this URL in Posman
+  `PUT http://localhost:34251/articles/{article_id}.json`
+
+    (Ex: article_id is 1,2,3,...)
+
+  - In Authorization tab, chooose Type: Bearer Token and fill the Token with your token received after logged in.
+  - In Headers tab, add this config
+    ```
+    Key: Accept
+    Value: application/json
+    ```
+  - In Body tab, choose `raw` option, at the right dropdown, change `Text` to `JSON` and fill data of article which you want to update.
+      ```
+      {
+        "title": "Your title here",
+        "body": "Your body here"
+      }
+      ```
+  - After press `Send` button, article would be updated like this.
+  - In case you are not the writer of this article, the response would like this.
+
+
+- Delete an Article
+  - It can only be used by authenticated article writer users.
+  - Access this URL in Posman
+  `DELETE http://localhost:34251/articles/{article_id}.json`
+
+    (Ex: article_id is 1,2,3,...)
+  - In Headers tab, add this config
+    ```
+    Key: Accept
+    Value: application/json
+    ```
+  - In Authorization tab, chooose Type: Bearer Token and fill the Token with your token received after logged in.
+  - After press `Send` button, article would be deleted like this.
+  - In case you are not the writer of this article, the response would be like this.
 
 ### Like Feature
 
-TODO: pls summarize how to check "Like Feature" bahavior
+- It can only be used by authenticated users.
+- Access this URL in Posman
+
+  `POST http://localhost:34251/article-likes.json`
+- In Headers tab, add this config
+  ```
+  Key: Accept
+  Value: application/json
+  ```
+- In Body tab, choose `raw` option, at the right dropdown, change `Text` to `JSON` and fill article id which you like.
+  ```
+  {
+    "article_id": "7"
+  }
+  ```
+- After press `Send` button, article would be deleted like this.
+
+- In case you alredy liked this article, the response would be like this.
+
