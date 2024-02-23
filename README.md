@@ -80,6 +80,7 @@ The application should now be accessible at http://localhost:34251
 - Retrieve All Articles
   - It can be accesssed by all users without login.
   - Access this URL in Posman
+
   `GET http://localhost:34251/articles.json`
   - In Headers tab, add this config
     ```
@@ -95,6 +96,7 @@ The application should now be accessible at http://localhost:34251
 - Retrieve a Single Article
   - It can be accesssed by all users without login.
   - Access this URL in Posman
+    
   `GET http://localhost:34251/articles/{article_id}.json`
 
     (Ex: article_id is 1,2,3,...)
@@ -109,7 +111,8 @@ The application should now be accessible at http://localhost:34251
 - Create an Article
   - It can only be used by authenticated users.
   - Access this URL in Posman
-  `POST http://localhost:34251/articles.json`
+  
+    `POST http://localhost:34251/articles.json`
   - After you logged in, you would receive an access token in above step.
   - In Authorization tab, chooose Type: Bearer Token and fill the Token with your token received after logged in.
   <img width="957" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/38c4a695-3849-4d61-aab1-4acd7286b62c">
@@ -133,6 +136,7 @@ The application should now be accessible at http://localhost:34251
 - Update an Article
   - It can only be used by authenticated article writer users.
   - Access this URL in Posman
+  
   `PUT http://localhost:34251/articles/{article_id}.json`
 
     (Ex: article_id is 1,2,3,...)
@@ -158,6 +162,7 @@ The application should now be accessible at http://localhost:34251
 - Delete an Article
   - It can only be used by authenticated article writer users.
   - Access this URL in Posman
+  
   `DELETE http://localhost:34251/articles/{article_id}.json`
 
     (Ex: article_id is 1,2,3,...)
