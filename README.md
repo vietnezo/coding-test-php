@@ -58,6 +58,8 @@ The application should now be accessible at http://localhost:34251
   Key: Accept
   Value: application/json
   ```
+  <img width="963" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/ce6733bd-f010-42d5-b31b-be0512ffd9a8">
+
 - In Body tab, choose `raw` option, and at the right dropdown, change `Text` to `JSON` and use this data for login.
 
   ```
@@ -67,8 +69,10 @@ The application should now be accessible at http://localhost:34251
   }
   ```
 - After press `Send` button, if login is successfully, you will receive access token like this.
+<img width="960" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/9274aa03-9e61-4aa3-8718-b323da788691">
 
 - In case login is failed, the response would be like this.
+<img width="956" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/f58d160a-4901-41f0-8ad2-946ce26b5b31">
 
 
 ### Article Management
@@ -83,8 +87,10 @@ The application should now be accessible at http://localhost:34251
     Value: application/json
     ```
   - You will retrieve all article by pages (default page 1) like this.
+  <img width="955" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/c891cdb6-8b9c-4ed3-a3c0-ba4908051a92">
 
   - For next page, use params `page={page_number}` (Ex: page_number is 2,3,4,...) like this.
+  <img width="956" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/ee846a34-6038-4f06-8f5a-f6185c27a154">
 
 - Retrieve a Single Article
   - It can be accesssed by all users without login.
@@ -98,6 +104,7 @@ The application should now be accessible at http://localhost:34251
     Value: application/json
     ```
   - You will retrieve a single article like this.
+  <img width="959" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/5ec009d7-a218-4da9-a9c9-84d61a91dfde">
 
 - Create an Article
   - It can only be used by authenticated users.
@@ -105,6 +112,8 @@ The application should now be accessible at http://localhost:34251
   `POST http://localhost:34251/articles.json`
   - After you logged in, you would receive an access token in above step.
   - In Authorization tab, chooose Type: Bearer Token and fill the Token with your token received after logged in.
+  <img width="957" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/38c4a695-3849-4d61-aab1-4acd7286b62c">
+
   - In Headers tab, add this config
     ```
     Key: Accept
@@ -119,6 +128,7 @@ The application should now be accessible at http://localhost:34251
       }
       ```
   - After press `Send` button, article would be created like this.
+  <img width="955" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/298bd565-f9ce-4fad-b19f-f1b3e06a6ce2">
 
 - Update an Article
   - It can only be used by authenticated article writer users.
@@ -141,8 +151,9 @@ The application should now be accessible at http://localhost:34251
       }
       ```
   - After press `Send` button, article would be updated like this.
+  <img width="957" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/b608b434-3958-4f76-afcb-605efa66c9b9">
   - In case you are not the writer of this article, the response would like this.
-
+  <img width="953" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/dd2aca69-0d9e-40ac-adfe-2ab465bf079c">
 
 - Delete an Article
   - It can only be used by authenticated article writer users.
@@ -157,7 +168,10 @@ The application should now be accessible at http://localhost:34251
     ```
   - In Authorization tab, chooose Type: Bearer Token and fill the Token with your token received after logged in.
   - After press `Send` button, article would be deleted like this.
+  <img width="957" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/f2757113-0eaf-4c07-9302-30ff0c168f14">
+
   - In case you are not the writer of this article, the response would be like this.
+  <img width="955" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/6cb64ea6-8b1b-446a-8056-62b4a539b4a0">
 
 ### Like Feature
 
@@ -177,6 +191,8 @@ The application should now be accessible at http://localhost:34251
   }
   ```
 - After press `Send` button, article would be deleted like this.
+<img width="950" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/ed08b2bc-9973-424e-867e-049a8e26ed8e">
 
 - In case you alredy liked this article, the response would be like this.
+<img width="956" alt="image" src="https://github.com/vietnezo/coding-test-php/assets/15098439/6aafd0d1-15fa-44b1-bab3-175e16940423">
 
